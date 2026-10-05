@@ -3,7 +3,8 @@
 > Ask questions over your own documents. Upload PDFs, get answers **with exact citations**, and verify facts with **LLM-as-judge faithfulness scoring**.
 
 ### 🎥 Demo Video
-*[Placeholder: Insert your brag video/GIF link here showing the UI, PDF upload, and citation checking]*
+<video src="[https://github.com/user-attachments/assets/...](https://github.com/user-attachments/assets/f00abfa3-593d-454c-9e5a-e1522acf048f)" controls="controls" muted="muted" playsinline="playsinline"></video>
+
 
 ---
 
