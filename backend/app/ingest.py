@@ -24,7 +24,15 @@ def chunk_text(text: str, size: int = 2000, overlap: int = 200) -> list[str]:
     return chunks
 
 
-def ingest_pdf(path: str, doc_id: str, name: str) -> int:
+def ingest_pdf(path: str, doc_id: str, name: str, user_id: str | None = None) -> int:
+    """Ingest a PDF: parse pages, chunk text, embed, and store.
+
+    Args:
+        path: Local path to the PDF file.
+        doc_id: Unique document identifier.
+        name: Original filename.
+        user_id: Owner user ID (None for legacy/anonymous usage).
+    """
     reader = PdfReader(path)
     rows: list[tuple[int, int, str]] = []
     for page_no, page in enumerate(reader.pages):
@@ -38,8 +46,8 @@ def ingest_pdf(path: str, doc_id: str, name: str) -> int:
 
     with db.get_conn() as conn, conn.cursor() as cur:
         cur.execute(
-            "INSERT INTO documents (id, name) VALUES (%s, %s) ON CONFLICT (id) DO NOTHING",
-            (doc_id, name),
+            "INSERT INTO documents (id, name, user_id) VALUES (%s, %s, %s) ON CONFLICT (id) DO NOTHING",
+            (doc_id, name, user_id),
         )
         for (page_no, chunk_index, text), emb in zip(rows, embeddings):
             cur.execute(

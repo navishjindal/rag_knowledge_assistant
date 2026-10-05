@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Where is Navish Jindal studying and what program?",
+    "retrieval_keywords": ["Sheridan College", "Software Development and Network Engineering"],
+    "must_contain": ["Sheridan College", "Software Development and Network Engineering"]
+  },
+  {
+    "question": "What certifications does the candidate hold?",
+    "retrieval_keywords": ["Cisco", "Ethical Hacker", "TCM Security"],
+    "must_contain": ["Cisco", "Ethical Hacker"]
+  },
+  {
+    "question": "What did Navish do as a Software Engineering Team Lead?",
+    "retrieval_keywords": ["Shipped 15 minigames", "React", "Firebase"],
+    "must_contain": ["minigames", "React"]
+  },
+  {
+    "question": "How did the candidate reduce deployment time as a Full Stack Developer?",
+    "retrieval_keywords": ["Reduced deployment time by 60%", "CI/CD pipelines", "Docker and AWS"],
+    "must_contain": ["60%", "CI/CD"]
+  },
+  {
+    "question": "What was the Filled Matcha project about?",
+    "retrieval_keywords": ["Filled Matcha", "cafe website", "newsletter sign-ups"],
+    "must_contain": ["cafe", "React", "Node.js"]
+  },
+  {
+    "question": "What is the Amplify project and what technologies did it use?",
+    "retrieval_keywords": ["Amplify", "emotion recognition", "CNN models", "Google Gemini API"],
+    "must_contain": ["emotion recognition", "CNN"]
+  },
+  {
+    "question": "What programming languages does the candidate know?",
+    "retrieval_keywords": ["Java, Python, C/C++, SQL", "JavaScript, HTML/CSS"],
+    "must_contain": ["Java", "Python", "JavaScript"]
+  },
+  {
+    "question": "What frameworks is Navish experienced with?",
+    "retrieval_keywords": ["React, FastAPI, Node.js, Flask, JUnit, PlayWright"],
+    "must_contain": ["React", "FastAPI", "Node.js"]
+  },
+  {
+    "question": "What role did Navish play in the AWS Student Builder Group?",
+    "retrieval_keywords": ["AWS Student Builder Group", "cloud workshops", "130+ students"],
+    "must_contain": ["AWS", "cloud"]
+  },
+  {
+    "question": "How did the candidate contribute to Sheridan Edge as an Advisory Board Member?",
+    "retrieval_keywords": ["Sheridan Edge", "Advisory Board Member", "AI development decisions"],
+    "must_contain": ["AI", "technical documentation"]
+  },
+  {
+    "question": "How did Navish reduce bugs during the Full Stack Developer role?",
+    "retrieval_keywords": ["Cut bug count by 40%", "Playwright"],
+    "must_contain": ["40%", "testing"]
+  },
+  {
+    "question": "What machine learning libraries does the candidate have experience with?",
+    "retrieval_keywords": ["pandas, NumPy, Matplotlib, Hugging Face, scikit-learn"],
+    "must_contain": ["pandas", "Hugging Face"]
+  },
+  {
+    "question": "What was Navish's role as a Peer Mentor?",
+    "retrieval_keywords": ["Peer Mentor", "60 students", "Leadership Styles"],
+    "must_contain": ["60 students", "Leadership"]
+  },
+  {
+    "question": "How many users did the auth and leaderboard system support?",
+    "retrieval_keywords": ["100+ users", "leaderboard and auth systems", "Firebase"],
+    "must_contain": ["100", "Firebase"]
+  },
+  {
+    "question": "What is Navish Jindal's contact email?",
+    "retrieval_keywords": ["jindalnavish50@gmail.com"],
+    "must_contain": ["jindalnavish50@gmail.com"]
+  },
+  {
+    "question": "What developer tools has the candidate used?",
+    "retrieval_keywords": ["Docker, AWS, Google Cloud Platform, Git"],
+    "must_contain": ["Docker", "Git", "AWS"]
+  },
+  {
+    "question": "What translation project did Navish work on?",
+    "retrieval_keywords": ["English–Sanskrit translation", "Hugging Face"],
+    "must_contain": ["Sanskrit", "translation"]
+  },
+  {
+    "question": "How did Navish improve emotion recognition accuracy in the Amplify project?",
+    "retrieval_keywords": ["emotion recognition accuracy to 53%", "deaf and autistic users"],
+    "must_contain": ["53%"]
+  },
+  {
+    "question": "What is Navish's experience with quantum computing?",
+    "retrieval_keywords": ["quantum-computing-xyz"],
+    "must_contain": ["don't have enough information"]
+  },
+  {
+    "question": "What blockchain projects has the candidate worked on?",
+    "retrieval_keywords": ["blockchain-project-xyz"],
+    "must_contain": ["don't have enough information"]
+  }
+]

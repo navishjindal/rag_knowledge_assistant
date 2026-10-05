@@ -1,93 +1,59 @@
 # RAG Knowledge Assistant
 
-Ask questions over your own documents. Upload PDFs, get answers **with citations**
-back to the exact source passages.
+> Ask questions over your own documents. Upload PDFs, get answers **with exact citations**, and verify facts with **LLM-as-judge faithfulness scoring**.
 
-Built to demonstrate retrieval-augmented generation end to end:
-document ingestion → chunking → embeddings → vector search → reranking →
-grounded generation → evaluation.
+### 🎥 Demo Video
+*[Placeholder: Insert your brag video/GIF link here showing the UI, PDF upload, and citation checking]*
 
-## Architecture
+---
 
-```
-┌──────────┐   upload PDF    ┌──────────────┐   chunks + embeddings   ┌─────────────┐
-│  React   │ ─────────────▶ │   FastAPI    │ ──────────────────────▶ │  Postgres   │
-│ frontend │                │   backend    │                         │  + pgvector │
-└──────────┘ ◀───────────── └──────────────┘ ◀────────────────────── └─────────────┘
-   │ chat UI +            │  /documents      answer + citations
-   │ citation viewer      │  /query
-                          │
-                          ▼
-                   ┌──────────────┐
-                   │ LLM (Gemini  │
-                   │  or Groq)    │
-                   └──────────────┘
-```
+## 📖 What It Does
+The **RAG Knowledge Assistant** is an end-to-end Retrieval-Augmented Generation (RAG) platform. It allows users to securely upload PDF documents into their own personal namespaces, ask complex questions across one or multiple documents, and receive highly accurate, grounded answers. 
 
-Pipeline per query:
+Unlike standard AI chat interfaces, this assistant prioritizes **truthfulness and traceability**. Every claim the LLM makes is backed by a specific citation, and a secondary "Judge LLM" evaluates the faithfulness of the answer against the retrieved context to prevent hallucinations.
 
-1. Embed the question (`all-MiniLM-L6-v2`, local, free).
-2. Cosine-similarity search over chunk embeddings in pgvector → top candidates.
-3. Rerank with a cross-encoder (`ms-marco-MiniLM-L-6-v2`) → keep top-k.
-4. Build a prompt with numbered sources; LLM answers **only from context**,
-   citing `[1]`, `[2]`, … and refusing when the context doesn't cover it.
+## ✨ Key Features
+- **Upload & Query PDFs**: Process and chunk PDF documents to make them instantly searchable.
+- **Precision Citations**: Responses include in-line citations (e.g., `[1]`, `[2]`) linking back to the exact source passages.
+- **LLM-as-Judge Faithfulness Scoring**: Every generated answer is evaluated and scored for faithfulness. Visual badges instantly indicate if a claim is fully supported by the underlying document.
+- **Multi-Document Comparison**: Select two documents side-by-side and ask comparative questions (e.g., "How do these documents differ on topic X?").
+- **Secure Per-User Namespaces**: JWT-based authentication ensures users can only access, manage, and query their own uploaded documents.
+- **Premium UI**: A sleek, responsive React frontend featuring a glassmorphic design and a built-in citation viewer.
 
-## Quickstart
+## 🛠️ Tech Stack
+- **Frontend**: React, Vite, Modern CSS
+- **Backend**: Python, FastAPI
+- **Database / Vector Store**: PostgreSQL with the `pgvector` extension
+- **Embeddings & Reranking**: `all-MiniLM-L6-v2` (local embeddings), `ms-marco-MiniLM-L-6-v2` (cross-encoder reranker)
+- **LLM**: Gemini or Groq
 
+## 🚀 Getting Started
+
+### 1. Environment Setup
+Copy the example environment file:
 ```bash
-# 1. Configure
 cp .env.example .env
-# add your GEMINI_API_KEY (or GROQ_API_KEY + LLM_PROVIDER=groq)
-
-# 2. Start Postgres + API
-docker compose up --build
-
-# 3. Ingest a PDF (API docs at http://localhost:8000/docs)
-curl -X POST http://localhost:8000/documents -F "file=@notes.pdf"
-
-# 4. Ask
-curl -X POST http://localhost:8000/query \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What does the document say about chunking?"}'
-
-# 5. Frontend
-cd frontend && npm install && npm run dev   # http://localhost:5173
 ```
+*Make sure to add your `GEMINI_API_KEY` (or `GROQ_API_KEY` if using Groq) and set a secure `JWT_SECRET`.*
 
-## Evaluation (the part interviewers care about)
-
-`evals/` ships a golden question set and a runner that measures:
-
-- **Retrieval recall@k** — did the right chunk come back?
-- **Answer keyword faithfulness** — did the answer contain the expected facts?
-
+### 2. Start the Backend & Database
+Use Docker Compose to spin up the PostgreSQL database and FastAPI backend:
 ```bash
-python evals/run_eval.py --api http://localhost:8000 --set evals/golden_set.json
+docker compose up --build
 ```
 
-Workflow: ingest docs → write 20–30 questions with known answers →
-run eval → change something (chunk size, rerank on/off, prompt) →
-run eval again → record the delta in the table below. That delta is your
-resume bullet.
+### 3. Start the Frontend
+In a new terminal, install dependencies and run the React development server:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Navigate to `http://localhost:5173` in your browser to register an account, log in, and start chatting with your PDFs!
 
-| Change | Recall@5 | Faithfulness | Notes |
-|--------|----------|--------------|-------|
-| baseline (top-5, no rerank) | — | — | |
-| + cross-encoder rerank | — | — | |
+## 🧠 Architecture Pipeline
 
-## Roadmap (stretch goals)
-
-- Hybrid search: BM25 + vector with reciprocal rank fusion
-- Streaming answers (SSE) so the UI feels instant
-- LLM-as-judge faithfulness scoring instead of keyword checks
-- Multi-document comparison questions ("how do doc A and doc B differ?")
-- Auth + per-user document namespaces
-
-## Resume bullets (fill in your numbers)
-
-- Built a RAG Q&A system over user-uploaded PDFs: FastAPI + pgvector,
-  cross-encoder reranking, and cited answers via Gemini/Groq.
-- Lifted answer faithfulness from X% → Y% (30-question eval set) by adding
-  reranking and tuning chunk size.
-- Deployed with Docker Compose; React frontend with click-to-source
-  citation viewer.
+1. **Ingestion**: PDF → Extracted Text → Chunks → Vector Embeddings (`all-MiniLM-L6-v2`) → Saved to `pgvector`.
+2. **Retrieval**: User Query → Embedding → Vector Similarity Search (Top-N chunks) → Cross-Encoder Reranking (Top-K chunks).
+3. **Generation**: Top-K chunks + Query → LLM Prompt → Grounded Answer with Citations.
+4. **Evaluation**: Answer + Source Chunks → Judge LLM Prompt → Faithfulness Score & Verdict.

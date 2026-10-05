@@ -10,7 +10,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U rag"]
+      test: ["CMD-SHELL", "pg_isready -U rag -d ragdb"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -20,6 +20,7 @@ services:
     env_file: .env
     environment:
       DATABASE_URL: postgresql://rag:rag@db:5432/ragdb
+      JWT_SECRET: ${JWT_SECRET:-rag-knowledge-assistant-dev-secret-change-in-prod}
     ports:
       - "8000:8000"
     depends_on:
